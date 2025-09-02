@@ -29,107 +29,335 @@
         // Story data - easy to modify and expand
         const scenes = {
             start: {
-                narration: "You stand before the impressive glass doors of Neumont University. The modern building stretches upward, with the distinctive blue and white Neumont logo prominently displayed. Students with laptops and gaming gear stream in and out, chatting about code reviews and upcoming LAN parties. The autumn air carries the faint sound of mechanical keyboards clicking through the windows.",
+                narration: "Main Street roars behind you, cars rushing past, but all you can see is the giant slab of red brick rising twelve stories high. Neumont stands here like a fortress — flags whipping in the wind, commons windows shining bright with fluorescent light. You glimpse silhouettes around pool tables and card games inside. The first set of double doors waits ahead, and to the right the alley stretches out, leading to another set of doors. You've heard after 5 p.m. you'll need an ID just to exist in this place.",
                 choices: [
-                    { text: "Walk confidently through the main entrance", next: "entrance_confident" },
-                    { text: "Sneak around to find a side entrance", next: "side_entrance" },
-                    { text: "Stand outside and observe the students first", next: "observe_students" },
-                    { text: "Check your phone pretending to belong here", next: "phone_check" }
+                    { text: "Greet the tour guide waiting near the entrance", next: "greet_tour_guide" },
+                    { text: "Explore Neumont on your own", next: "explore_alone" },
+                    { text: "Throw a rock at the glass windows (why??)", next: "throw_rock" },
+                    { text: "Give up and head home", next: "give_up" }
                 ]
             },
 
-            entrance_confident: {
-                narration: "You push through the first set of double doors with determination, but your confidence wavers as you encounter a second set of doors ahead. A security checkpoint blocks your path, complete with card readers and a friendly but alert security guard. The guard looks up from his computer screen - probably monitoring network traffic based on the terminal windows visible. A sign clearly states: 'Valid Student/Staff ID or Visitor Pass Required Beyond This Point.'",
+            greet_tour_guide: {
+                narration: "You wave. 'Hi, I'm here for the tour.' The guide smiles, clipboard in hand. 'Perfect timing. Stick with me — I'll show you the good, the bad, and the regrettable.' They gesture to the first set of double doors. 'We'll need to stop at security first. Visitor's passes are the law around here.'",
                 choices: [
-                    { text: "Approach the security guard and explain you're visiting", next: "talk_to_guard" },
-                    { text: "Pretend to search your pockets for an ID card", next: "fake_search" },
-                    { text: "Try to slip past when the guard is distracted", next: "sneak_past" },
-                    { text: "Turn around and leave immediately", next: "retreat_embarrassed" }
+                    { text: "Follow the guide to the security desk", next: "follow_guide_security" },
+                    { text: "Slip into the Commons when the doors open", next: "slip_commons" },
+                    { text: "Ask about the Trio apartments", next: "ask_trio" }
                 ]
             },
 
-            side_entrance: {
-                narration: "You circle around the building, passing underneath windows where you can see students hunched over multiple monitors, some clearly in the middle of intense gaming sessions while others debug code. You find a side entrance near what appears to be a loading dock. The door has a keypad lock, but it's propped open by someone who seems to be taking a smoke break - a student wearing a hoodie with 'There's no place like 127.0.0.1' printed on it.",
+            follow_guide_security: {
+                narration: "The guide leads you through the double doors. The air smells faintly like burnt popcorn and Red Bull. Ahead, the security desk gleams with laminated signs. The receptionist looks half-bored, half-ready to end your existence. 'Visitor pass? Name? ID?' she drones.",
                 choices: [
-                    { text: "Casually walk in while the door is propped open", next: "slip_in_side" },
-                    { text: "Ask the student if they can let you in", next: "ask_student_help" },
-                    { text: "Wait for them to go back inside, then try the door", next: "wait_and_try" },
-                    { text: "Go back to the main entrance instead", next: "return_to_main" }
+                    { text: "Give real info", next: "give_real_info" },
+                    { text: "Make up a fake name", next: "fake_name" },
+                    { text: "Ask about Neumont South", next: "ask_neumont_south" },
+                    { text: "Try sneaking to the Commons", next: "sneak_commons" }
                 ]
             },
 
-            observe_students: {
-                narration: "You lean against a nearby pillar and watch the steady stream of Neumont students. Most carry high-end gaming laptops, many have multiple monitors visible through their backpack mesh, and you overhear conversations about 'pushing to production,' 'that merge conflict,' and 'raid night at 8.' One group is animatedly discussing whether tabs or spaces are superior. A girl walks by with a laptop covered in programming language stickers and what appears to be a custom mechanical keyboard.",
+            give_real_info: {
+                narration: "You hand over your ID. The receptionist sighs, prints a badge, and slides it over. 'Don't break anything.' Visitor pass acquired. You're free to roam.",
                 choices: [
-                    { text: "Follow the group discussing tabs vs spaces", next: "follow_programmers" },
-                    { text: "Strike up a conversation with the girl with stickers", next: "talk_to_sticker_girl" },
-                    { text: "Now enter the main building confidently", next: "entrance_confident" },
-                    { text: "Continue observing to learn more", next: "observe_more" }
+                    { text: "Proceed to Commons Exploration", next: "commons_exploration" }
                 ]
             },
 
-            talk_to_guard: {
-                narration: "The security guard, whose name tag reads 'Mike,' looks up with a friendly smile. Behind him, you notice multiple monitors displaying what looks like network monitoring tools and campus security feeds. 'Hey there! First time visiting Neumont?' he asks warmly. 'I can get you set up with a visitor's pass, just need to know who you're here to see or if you're checking out our programs. We get a lot of prospective students interested in our Game Development and Cybersecurity tracks.'",
+            fake_name: {
+                narration: "'I'm… John Studentman,' you say. The receptionist narrows her eyes. 'Really.' She taps her keyboard. 'Then where's your schedule?' Security shows up before you can answer. You're escorted back to the Security Desk.",
                 choices: [
-                    { text: "Say you're interested in the Game Development program", next: "game_dev_tour" },
-                    { text: "Claim you're here for the Cybersecurity program", next: "cyber_security_tour" },
-                    { text: "Admit you're just curious about the school", next: "general_curiosity" },
-                    { text: "Make up a story about meeting a specific student", next: "fake_meeting" }
+                    { text: "Try again with real info", next: "follow_guide_security" }
                 ]
             },
 
-            game_dev_tour: {
-                narration: "Mike's eyes light up. 'Game Dev! Awesome choice. You're in luck - Professor Johnson is actually running a demo in the lab right now. Students are showing off their Unity projects from this quarter.' He prints out a visitor's pass and points down the hallway. 'Take the elevator to the third floor, follow the sounds of explosions and cheering. You can't miss it.' As if on cue, you hear distant sound effects and excited voices echoing from somewhere above.",
+            ask_neumont_south: {
+                narration: "'Neumont South? Down the street. Only matters if you like climbing three floors just to suffer.' She waves you off. You now know the Neumont South route exists.",
                 choices: [
-                    { text: "Head straight to the game development lab", next: "game_lab_visit" },
-                    { text: "Explore the first floor first", next: "explore_first_floor" },
-                    { text: "Ask Mike about other programs too", next: "ask_about_other_programs" },
-                    { text: "Thank him and leave to think about it", next: "leave_to_think" }
+                    { text: "Return to Security Desk choices", next: "follow_guide_security" },
+                    { text: "Head to Neumont South", next: "neumont_south" }
                 ]
             },
 
-            game_lab_visit: {
-                narration: "The elevator opens to reveal a hallway filled with the sounds of digital warfare and triumphant shouts. You follow the noise to a large computer lab where students are gathered around high-end gaming PCs, each running different games. One screen shows a beautifully rendered fantasy landscape, another displays a retro-style platformer, and a third features what appears to be a multiplayer battle arena. Professor Johnson, a energetic woman with pixel art earrings, notices you. 'Welcome! Come check out what our students have built this quarter!'",
+            sneak_commons: {
+                narration: "You slip past when her head turns. Two steps later: 'HEY!' Security grabs you and drags you back.",
                 choices: [
-                    { text: "Check out the fantasy landscape game first", next: "fantasy_game" },
-                    { text: "Try the retro platformer", next: "retro_game" },
-                    { text: "Watch the multiplayer battle arena", next: "battle_arena" },
-                    { text: "Ask Professor Johnson about the program", next: "talk_to_professor" }
+                    { text: "Restart at Security Desk", next: "follow_guide_security" }
                 ]
             },
 
-            fantasy_game: {
-                narration: "You approach a student named Alex who's proudly demonstrating their 3D RPG. 'I built this entire world in Unity,' they explain, showing off rolling hills, ancient ruins, and a dynamic weather system. 'The hardest part was implementing the AI for the dragon boss - it took me three weeks just to get the pathfinding right!' The game looks incredibly polished for a student project. Other students gather around, offering suggestions for improvements and praising the environmental design. You realize this is what passion for game development looks like.",
+            slip_commons: {
+                narration: "You vanish as the tour guide is distracted. The Commons unfold before you: foosball, pool, vending machines, and chaos.",
                 choices: [
-                    { text: "Ask Alex about learning game development", next: "ask_about_learning" },
-                    { text: "Try playing the game yourself", next: "play_rpg" },
-                    { text: "Move on to see other projects", next: "see_other_projects" },
-                    { text: "Ask about the technical challenges", next: "technical_questions" }
+                    { text: "Continue to Commons Exploration", next: "commons_exploration" }
                 ]
             },
 
-            ask_about_learning: {
-                narration: "Alex's face lights up as they explain their journey. 'I started with zero programming experience two years ago. Neumont's curriculum is intense but amazing - we learn everything from basic programming to advanced graphics rendering. The best part is we're making games from day one, not just studying theory.' They show you their progression from simple Pong clones to this complex RPG. 'Plus, everyone here is super supportive. We share code, help debug each other's projects, and even form teams for game jams.' You can see the genuine excitement and community spirit that makes Neumont special.",
+            ask_trio: {
+                narration: "The guide snorts. 'Ah, the Trio. A mile south. Essex, Elevate, Mercer. Pick your poison.' They lean in. 'Everyone fights over the master bedroom. And don't expect parking.'",
                 choices: [
-                    { text: "Ask about admission requirements", next: "admission_info" },
-                    { text: "Inquire about job prospects after graduation", next: "career_prospects" },
-                    { text: "Express serious interest in applying", next: "serious_interest" },
-                    { text: "Thank them and explore more of the campus", next: "explore_more_campus" }
+                    { text: "Head to the Trio Apartments", next: "trio_apartments" },
+                    { text: "Continue with the tour", next: "follow_guide_security" }
                 ]
             },
 
-            serious_interest: {
-                narration: "Alex grins widely and calls over Professor Johnson. 'Professor! We've got someone seriously interested in joining our program!' Professor Johnson approaches with a warm smile. 'That's wonderful to hear! Alex here is one of our star students, and they're right about our community. Why don't I give you my card and we can set up a proper tour? We also have information sessions every month where you can meet more students and faculty.' You feel a genuine sense of belonging and excitement about the possibility of joining this passionate community of game developers.",
+            explore_alone: {
+                narration: "You ditch the guide entirely, swaggering through the doors like you belong. The Commons buzz with life: students at foosball, a cluster around the pool table, and the receptionist glaring at you.",
                 choices: [
-                    { text: "Schedule a formal tour and information session", next: "schedule_tour" },
-                    { text: "Ask for application materials immediately", next: "get_application" },
-                    { text: "Request to sit in on a class", next: "audit_class" },
-                    { text: "Take their contact info and continue exploring", next: "continue_exploring" }
+                    { text: "Challenge someone at foosball", next: "foosball" },
+                    { text: "Talk to the receptionist", next: "follow_guide_security" },
+                    { text: "Go upstairs to classrooms", next: "upstairs" },
+                    { text: "Head downstairs to the basement", next: "basement" }
                 ]
             },
 
-            schedule_tour: {
-                narration: "Professor Johnson pulls out her phone and checks the calendar. 'Perfect timing! We have an information session this Friday at 2 PM, followed by a campus tour. You'll get to see all our labs, meet current students from different programs, and even try out some of our VR development equipment.' She hands you a beautifully designed card with holographic elements that shift as you move it. 'Plus, if you attend, you'll automatically be entered for a chance to win some gaming gear we're giving away.' As you prepare to leave, several students wave goodbye and encourage you to apply. You realize you've found something special here at Neumont.",
+            foosball: {
+                narration: "You grab the handles. A student grins. 'Loser buys Red Bull.' The game is chaos.",
+                choices: [
+                    { text: "Win and brag (learn about the Trio)", next: "win_foosball" },
+                    { text: "Lose and slink away to the Market", next: "lose_foosball" },
+                    { text: "Quit mid-game, go to receptionist", next: "follow_guide_security" }
+                ]
+            },
+
+            win_foosball: {
+                narration: "You demolish them at foosball! 'Nice moves,' they laugh. 'You should check out the Trio apartments - Essex has pool tables just like this. We're there every night.' You've learned about student housing!",
+                choices: [
+                    { text: "Ask more about the Trio", next: "trio_apartments" },
+                    { text: "Continue exploring Commons", next: "commons_exploration" }
+                ]
+            },
+
+            lose_foosball: {
+                narration: "You get destroyed. Embarrassed, you buy them Red Bull from the vending machine and slink away toward what looks like a small market area.",
+                choices: [
+                    { text: "Explore the market", next: "commons_exploration" },
+                    { text: "Try talking to other students", next: "commons_exploration" }
+                ]
+            },
+
+            upstairs: {
+                narration: "The 2nd floor: narrow halls, classrooms buzzing. Professors scrawl code like mad prophets.",
+                choices: [
+                    { text: "Peek into a class", next: "peek_class" },
+                    { text: "Sneak up to the 3rd floor", next: "third_floor" },
+                    { text: "Return to Commons", next: "commons_exploration" }
+                ]
+            },
+
+            peek_class: {
+                narration: "Through the door window, you see students hunched over laptops, debugging code. The professor explains something about algorithms while pointing at a whiteboard covered in pseudocode. This is the real deal - serious programming education.",
+                choices: [
+                    { text: "Try to sit in", next: "sit_in_class" },
+                    { text: "Continue exploring floors", next: "third_floor" },
+                    { text: "Head back to Commons", next: "commons_exploration" }
+                ]
+            },
+
+            sit_in_class: {
+                narration: "You slip in and grab an empty seat. The professor notices but doesn't stop lecturing. Students around you are working on complex coding projects. After a few minutes, someone whispers 'Are you new?' This could be your chance to learn more.",
+                choices: [
+                    { text: "Whisper back that you're considering applying", next: "talk_to_students" },
+                    { text: "Quietly leave before getting in trouble", next: "upstairs" }
+                ]
+            },
+
+            talk_to_students: {
+                narration: "The student next to you grins. 'Cool! I'm Sarah. This is Advanced Game Development - we're building our capstone projects. Want to see mine?' She shows you an impressive 3D platformer running on her laptop. 'Neumont's intense but worth it. You should totally apply!'",
+                ending: true,
+                endingType: "success"
+            },
+
+            third_floor: {
+                narration: "Higher floors, more advanced classes. You can hear intense discussions about cybersecurity and network protocols through the doors.",
+                choices: [
+                    { text: "Explore cybersecurity area", next: "cybersecurity_area" },
+                    { text: "Head back downstairs", next: "upstairs" }
+                ]
+            },
+
+            cybersecurity_area: {
+                narration: "The cybersecurity lab is impressive - multiple monitors, network equipment, and students practicing ethical hacking exercises. A professor notices you. 'Interested in cybersecurity? We're always looking for good students.'",
+                ending: true,
+                endingType: "success"
+            },
+
+            basement: {
+                narration: "The basement hums with locked server rooms. The air is colder, and you feel like you're trespassing.",
+                choices: [
+                    { text: "Try to open a server room", next: "server_room" },
+                    { text: "Explore storage hall", next: "storage_hall" },
+                    { text: "Retreat upstairs", next: "explore_alone" }
+                ]
+            },
+
+            server_room: {
+                narration: "You try the handle. BEEP BEEP BEEP! Alarms go off. Security appears within seconds. 'What do you think you're doing?' They escort you back to the security desk for a proper visitor pass.",
+                choices: [
+                    { text: "Go to Security Desk", next: "follow_guide_security" }
+                ]
+            },
+
+            storage_hall: {
+                narration: "Just storage closets and maintenance equipment. Nothing interesting here. You head back upstairs.",
+                choices: [
+                    { text: "Return to Commons", next: "commons_exploration" }
+                ]
+            },
+
+            throw_rock: {
+                narration: "You hurl a rock. Shatter. The Commons gasps. A staff member storms out. 'WHAT THE HELL ARE YOU DOING?!'",
+                choices: [
+                    { text: "Run into the alley", next: "run_alley" },
+                    { text: "Wait for police", next: "wait_police" },
+                    { text: "Pretend it's performance art", next: "performance_art" }
+                ]
+            },
+
+            run_alley: {
+                narration: "You bolt into the alley, trip over trash cans, and circle back to the front doors.",
+                choices: [
+                    { text: "Restart at Scene 1", next: "start" }
+                ]
+            },
+
+            wait_police: {
+                narration: "Cops arrive. 'Really? First day?' They laugh and dump you back at the front.",
+                choices: [
+                    { text: "Restart at Scene 1", next: "start" }
+                ]
+            },
+
+            performance_art: {
+                narration: "You bow dramatically. 'It's art!' The staffer groans and escorts you to the Security Desk.",
+                choices: [
+                    { text: "Go to Security Desk", next: "follow_guide_security" }
+                ]
+            },
+
+            give_up: {
+                narration: "You walk away, Main Street swallowing you up. No Neumont. No debt. No future.",
+                choices: [
+                    { text: "Keep walking", next: "coward_ending" },
+                    { text: "Turn back", next: "start" }
+                ]
+            },
+
+            coward_ending: {
+                narration: "You disappear into the city traffic, forever wondering what might have been. Sometimes the safe choice isn't the right choice.",
+                ending: true,
+                endingType: "failure"
+            },
+
+            commons_exploration: {
+                narration: "The Commons buzz endlessly. Foosball, pool, vending machines, card games. Students lounge on couches, laughing over half-finished assignments.",
+                choices: [
+                    { text: "Play foosball", next: "foosball" },
+                    { text: "Talk to receptionist", next: "follow_guide_security" },
+                    { text: "Head upstairs", next: "upstairs" },
+                    { text: "Head downstairs", next: "basement" }
+                ]
+            },
+
+            neumont_south: {
+                narration: "You head south. Another red-brick beast: Neumont South. Its double doors open easily, unlike the fortress uptown. Inside, quiet. The 3rd floor is the real target — advanced classrooms. But you'll need an ID.",
+                choices: [
+                    { text: "Take the elevator (requires ID)", next: "elevator_id" },
+                    { text: "Use the stairs (requires ID)", next: "stairs_id" },
+                    { text: "Wander 1st/2nd floors", next: "lower_floors" },
+                    { text: "Return to Neumont main campus", next: "start" }
+                ]
+            },
+
+            elevator_id: {
+                narration: "The elevator requires ID card access. Without one, you're stuck on the first floor.",
+                choices: [
+                    { text: "Reset to South entrance", next: "neumont_south" }
+                ]
+            },
+
+            stairs_id: {
+                narration: "The stairwell door to upper floors is locked - ID required. You're stuck.",
+                choices: [
+                    { text: "Reset to South entrance", next: "neumont_south" }
+                ]
+            },
+
+            lower_floors: {
+                narration: "The first two floors are basic - reception, some meeting rooms, nothing exciting. This was boring.",
+                choices: [
+                    { text: "Return to entrance", next: "neumont_south" }
+                ]
+            },
+
+            trio_apartments: {
+                narration: "You head to the Trio apartments complex. Three buildings stand before you: Essex, Elevate, and Mercer. Each has its own personality and student culture.",
+                choices: [
+                    { text: "Check out Essex", next: "essex" },
+                    { text: "Visit Elevate", next: "elevate" },
+                    { text: "Explore Mercer", next: "mercer" }
+                ]
+            },
+
+            essex: {
+                narration: "A madhouse of pool tables, game consoles, and noise until 3 a.m. Students pile into the game room like it's their real major.",
+                choices: [
+                    { text: "Play pool with residents", next: "essex_pool" },
+                    { text: "Join console brawl", next: "essex_gaming" },
+                    { text: "Retreat back to Neumont", next: "start" }
+                ]
+            },
+
+            essex_pool: {
+                narration: "You join a pool game with some CS students. Between shots, they tell you about their projects, internships, and life at Neumont. 'It's intense but we're all in it together,' one says, sinking the 8-ball.",
+                ending: true,
+                endingType: "success"
+            },
+
+            essex_gaming: {
+                narration: "You grab a controller and jump into a fierce Smash Bros tournament. The competition is brutal but friendly. 'You've got potential,' laughs the winner. 'You should apply to Neumont - we need more gamers in our Game Dev program!'",
+                ending: true,
+                endingType: "success"
+            },
+
+            elevate: {
+                narration: "Balconies, a gym, and a hot tub — always crowded. Ten dudes squeeze in, none leaving.",
+                choices: [
+                    { text: "Jump in anyway", next: "elevate_hottub" },
+                    { text: "Hit the gym", next: "elevate_gym" },
+                    { text: "Retreat back to Neumont", next: "start" }
+                ]
+            },
+
+            elevate_hottub: {
+                narration: "You squeeze into the overcrowded hot tub. Despite the chaos, the students are welcoming. They discuss their majors, internships, and post-graduation plans. 'Neumont's network is amazing,' one mentions. 'I already have a job lined up.'",
+                ending: true,
+                endingType: "success"
+            },
+
+            elevate_gym: {
+                narration: "The gym is well-equipped and surprisingly busy for a tech school. Students work out while discussing code and game design. 'Healthy body, healthy mind,' explains someone between sets. 'Neumont teaches us balance.'",
+                ending: true,
+                endingType: "success"
+            },
+
+            mercer: {
+                narration: "The quiet sibling. Basic, boring, but peaceful. Less drama, fewer parties.",
+                choices: [
+                    { text: "Chill with residents", next: "mercer_chill" },
+                    { text: "Test the balcony view", next: "mercer_balcony" },
+                    { text: "Return to Neumont", next: "start" }
+                ]
+            },
+
+            mercer_chill: {
+                narration: "You hang out in the quiet common area. Students here are focused on studying and projects. 'Some of us prefer the quiet life,' explains a student working on code. 'But we're just as passionate about technology.'",
+                ending: true,
+                endingType: "success"
+            },
+
+            mercer_balcony: {
+                narration: "The balcony offers a great view of the Salt Lake valley. A few students sit out here with laptops, coding in the fresh air. 'Best study spot in the city,' one says. 'Come to Neumont - you'll love it here.'",
                 ending: true,
                 endingType: "success"
             }
