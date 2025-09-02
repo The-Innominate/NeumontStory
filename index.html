@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neumont University Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="scene-counter" id="sceneCounter">Scene 1</div>
+            <h1>Neumont University Adventure</h1>
+            <p>Your journey through campus begins...</p>
+        </div>
+        <div class="game-content">
+            <div class="narration-box fade-in" id="narrationBox">
+                <div class="narration-text" id="narrationText"></div>
+            </div>
+            <div class="choices-container" id="choicesContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let currentScene = 'start';
+        let sceneCount = 1;
+
+        // Story data - easy to modify and expand
+        const scenes = {
+            start: {
+                narration: "You stand before the impressive glass doors of Neumont University. The modern building stretches upward, with the distinctive blue and white Neumont logo prominently displayed. Students with laptops and gaming gear stream in and out, chatting about code reviews and upcoming LAN parties. The autumn air carries the faint sound of mechanical keyboards clicking through the windows.",
+                choices: [
+                    { text: "Walk confidently through the main entrance", next: "entrance_confident" },
+                    { text: "Sneak around to find a side entrance", next: "side_entrance" },
+                    { text: "Stand outside and observe the students first", next: "observe_students" },
+                    { text: "Check your phone pretending to belong here", next: "phone_check" }
+                ]
+            },
+
+            entrance_confident: {
+                narration: "You push through the first set of double doors with determination, but your confidence wavers as you encounter a second set of doors ahead. A security checkpoint blocks your path, complete with card readers and a friendly but alert security guard. The guard looks up from his computer screen - probably monitoring network traffic based on the terminal windows visible. A sign clearly states: 'Valid Student/Staff ID or Visitor Pass Required Beyond This Point.'",
+                choices: [
+                    { text: "Approach the security guard and explain you're visiting", next: "talk_to_guard" },
+                    { text: "Pretend to search your pockets for an ID card", next: "fake_search" },
+                    { text: "Try to slip past when the guard is distracted", next: "sneak_past" },
+                    { text: "Turn around and leave immediately", next: "retreat_embarrassed" }
+                ]
+            },
+
+            side_entrance: {
+                narration: "You circle around the building, passing underneath windows where you can see students hunched over multiple monitors, some clearly in the middle of intense gaming sessions while others debug code. You find a side entrance near what appears to be a loading dock. The door has a keypad lock, but it's propped open by someone who seems to be taking a smoke break - a student wearing a hoodie with 'There's no place like 127.0.0.1' printed on it.",
+                choices: [
+                    { text: "Casually walk in while the door is propped open", next: "slip_in_side" },
+                    { text: "Ask the student if they can let you in", next: "ask_student_help" },
+                    { text: "Wait for them to go back inside, then try the door", next: "wait_and_try" },
+                    { text: "Go back to the main entrance instead", next: "return_to_main" }
+                ]
+            },
+
+            observe_students: {
+                narration: "You lean against a nearby pillar and watch the steady stream of Neumont students. Most carry high-end gaming laptops, many have multiple monitors visible through their backpack mesh, and you overhear conversations about 'pushing to production,' 'that merge conflict,' and 'raid night at 8.' One group is animatedly discussing whether tabs or spaces are superior. A girl walks by with a laptop covered in programming language stickers and what appears to be a custom mechanical keyboard.",
+                choices: [
+                    { text: "Follow the group discussing tabs vs spaces", next: "follow_programmers" },
+                    { text: "Strike up a conversation with the girl with stickers", next: "talk_to_sticker_girl" },
+                    { text: "Now enter the main building confidently", next: "entrance_confident" },
+                    { text: "Continue observing to learn more", next: "observe_more" }
+                ]
+            },
+
+            talk_to_guard: {
+                narration: "The security guard, whose name tag reads 'Mike,' looks up with a friendly smile. Behind him, you notice multiple monitors displaying what looks like network monitoring tools and campus security feeds. 'Hey there! First time visiting Neumont?' he asks warmly. 'I can get you set up with a visitor's pass, just need to know who you're here to see or if you're checking out our programs. We get a lot of prospective students interested in our Game Development and Cybersecurity tracks.'",
+                choices: [
+                    { text: "Say you're interested in the Game Development program", next: "game_dev_tour" },
+                    { text: "Claim you're here for the Cybersecurity program", next: "cyber_security_tour" },
+                    { text: "Admit you're just curious about the school", next: "general_curiosity" },
+                    { text: "Make up a story about meeting a specific student", next: "fake_meeting" }
+                ]
+            },
+
+            game_dev_tour: {
+                narration: "Mike's eyes light up. 'Game Dev! Awesome choice. You're in luck - Professor Johnson is actually running a demo in the lab right now. Students are showing off their Unity projects from this quarter.' He prints out a visitor's pass and points down the hallway. 'Take the elevator to the third floor, follow the sounds of explosions and cheering. You can't miss it.' As if on cue, you hear distant sound effects and excited voices echoing from somewhere above.",
+                choices: [
+                    { text: "Head straight to the game development lab", next: "game_lab_visit" },
+                    { text: "Explore the first floor first", next: "explore_first_floor" },
+                    { text: "Ask Mike about other programs too", next: "ask_about_other_programs" },
+                    { text: "Thank him and leave to think about it", next: "leave_to_think" }
+                ]
+            },
+
+            game_lab_visit: {
+                narration: "The elevator opens to reveal a hallway filled with the sounds of digital warfare and triumphant shouts. You follow the noise to a large computer lab where students are gathered around high-end gaming PCs, each running different games. One screen shows a beautifully rendered fantasy landscape, another displays a retro-style platformer, and a third features what appears to be a multiplayer battle arena. Professor Johnson, a energetic woman with pixel art earrings, notices you. 'Welcome! Come check out what our students have built this quarter!'",
+                choices: [
+                    { text: "Check out the fantasy landscape game first", next: "fantasy_game" },
+                    { text: "Try the retro platformer", next: "retro_game" },
+                    { text: "Watch the multiplayer battle arena", next: "battle_arena" },
+                    { text: "Ask Professor Johnson about the program", next: "talk_to_professor" }
+                ]
+            },
+
+            fantasy_game: {
+                narration: "You approach a student named Alex who's proudly demonstrating their 3D RPG. 'I built this entire world in Unity,' they explain, showing off rolling hills, ancient ruins, and a dynamic weather system. 'The hardest part was implementing the AI for the dragon boss - it took me three weeks just to get the pathfinding right!' The game looks incredibly polished for a student project. Other students gather around, offering suggestions for improvements and praising the environmental design. You realize this is what passion for game development looks like.",
+                choices: [
+                    { text: "Ask Alex about learning game development", next: "ask_about_learning" },
+                    { text: "Try playing the game yourself", next: "play_rpg" },
+                    { text: "Move on to see other projects", next: "see_other_projects" },
+                    { text: "Ask about the technical challenges", next: "technical_questions" }
+                ]
+            },
+
+            ask_about_learning: {
+                narration: "Alex's face lights up as they explain their journey. 'I started with zero programming experience two years ago. Neumont's curriculum is intense but amazing - we learn everything from basic programming to advanced graphics rendering. The best part is we're making games from day one, not just studying theory.' They show you their progression from simple Pong clones to this complex RPG. 'Plus, everyone here is super supportive. We share code, help debug each other's projects, and even form teams for game jams.' You can see the genuine excitement and community spirit that makes Neumont special.",
+                choices: [
+                    { text: "Ask about admission requirements", next: "admission_info" },
+                    { text: "Inquire about job prospects after graduation", next: "career_prospects" },
+                    { text: "Express serious interest in applying", next: "serious_interest" },
+                    { text: "Thank them and explore more of the campus", next: "explore_more_campus" }
+                ]
+            },
+
+            serious_interest: {
+                narration: "Alex grins widely and calls over Professor Johnson. 'Professor! We've got someone seriously interested in joining our program!' Professor Johnson approaches with a warm smile. 'That's wonderful to hear! Alex here is one of our star students, and they're right about our community. Why don't I give you my card and we can set up a proper tour? We also have information sessions every month where you can meet more students and faculty.' You feel a genuine sense of belonging and excitement about the possibility of joining this passionate community of game developers.",
+                choices: [
+                    { text: "Schedule a formal tour and information session", next: "schedule_tour" },
+                    { text: "Ask for application materials immediately", next: "get_application" },
+                    { text: "Request to sit in on a class", next: "audit_class" },
+                    { text: "Take their contact info and continue exploring", next: "continue_exploring" }
+                ]
+            },
+
+            schedule_tour: {
+                narration: "Professor Johnson pulls out her phone and checks the calendar. 'Perfect timing! We have an information session this Friday at 2 PM, followed by a campus tour. You'll get to see all our labs, meet current students from different programs, and even try out some of our VR development equipment.' She hands you a beautifully designed card with holographic elements that shift as you move it. 'Plus, if you attend, you'll automatically be entered for a chance to win some gaming gear we're giving away.' As you prepare to leave, several students wave goodbye and encourage you to apply. You realize you've found something special here at Neumont.",
+                ending: true,
+                endingType: "success"
+            }
+        };
+
+        // Initialize the game
+        function initGame() {
+            displayScene('start');
+        }
+
+        // Display a scene
+        function displayScene(sceneId) {
+            const scene = scenes[sceneId];
+            if (!scene) return;
+
+            currentScene = sceneId;
+            
+            // Update scene counter
+            document.getElementById('sceneCounter').textContent = `Scene ${sceneCount}`;
+            
+            // Update narration with fade effect
+            const narrationBox = document.getElementById('narrationBox');
+            const narrationText = document.getElementById('narrationText');
+            
+            narrationBox.classList.remove('fade-in');
+            
+            setTimeout(() => {
+                narrationText.textContent = scene.narration;
+                narrationBox.classList.add('fade-in');
+            }, 100);
+
+            // Clear and populate choices
+            const choicesContainer = document.getElementById('choicesContainer');
+            choicesContainer.innerHTML = '';
+
+            if (scene.ending) {
+                // Show ending with restart option
+                const endingMessage = document.createElement('div');
+                endingMessage.className = 'narration-box';
+                endingMessage.innerHTML = `
+                    <div class="narration-text">
+                        <strong>${scene.endingType === 'success' ? 'Congratulations!' : 'The End'}</strong><br>
+                        Your Neumont University adventure concludes here. Thank you for exploring!
+                    </div>
+                `;
+                
+                const restartButton = document.createElement('button');
+                restartButton.className = 'restart-button';
+                restartButton.textContent = 'Start New Adventure';
+                restartButton.onclick = () => {
+                    sceneCount = 1;
+                    displayScene('start');
+                };
+                
+                choicesContainer.appendChild(endingMessage);
+                choicesContainer.appendChild(restartButton);
+            } else {
+                // Create choice buttons
+                scene.choices.forEach((choice, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'choice-button';
+                    button.textContent = choice.text;
+                    button.onclick = () => {
+                        sceneCount++;
+                        displayScene(choice.next);
+                    };
+                    choicesContainer.appendChild(button);
+                });
+            }
+        }
+
+        // Start the game when page loads
+        window.onload = initGame;
+    </script>
+</body>
+</html>
